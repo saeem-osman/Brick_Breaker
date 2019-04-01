@@ -2,19 +2,28 @@ var playerScore = 0;
 let paddle
 let ball
 let bricks = []
+let playing = true
 
 function setup() {
     createCanvas(800, 600)
-    let colors = []
-    colors.push(color(265, 165, 0))
-    colors.push(color(135, 206, 250))
-    colors.push(color(147, 112, 219))
-    colors.push(color(42, 42, 42))
+    let colors = createColors()
 
 
     paddle = new Paddle
     ball = new Ball(paddle)
     bricks = createBricks(colors)
+}
+
+function createColors() {
+    const colors = []
+    colors.push(color(265, 165, 0))
+    colors.push(color(135, 206, 250))
+    colors.push(color(147, 112, 219))
+    for (let i = 0; i < 10; i++) {
+        colors.push(color(random(0, 255), random(0, 255), random(0, 255)))
+    }
+    return colors;
+
 }
 
 function createBricks(colors) {
@@ -67,6 +76,12 @@ function draw() {
             playerScore += brick.points
         }
 
+    }
+    if (bricks.length === 0) {
+        textSize(60)
+        playing = false
+        fill(255)
+        text('Game Over', width / 2 - 200, height / 2);
     }
 
     textSize(32)
